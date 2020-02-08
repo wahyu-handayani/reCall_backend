@@ -22,5 +22,20 @@ module.exports={
             }
             res.send({message:'email sudah pernah terpakai'})
         })
-    }
+    },
+    signIn:((req,res)=>{
+        let data={
+            email:req.body.email,
+            password:req.body.password,
+            position:req.body.position
+        }
+        model.login(data)
+        .then(result=>{
+            res.json({
+            message:result
+        })})
+        .catch(err=>res.json({
+            message:'data yg kmu masukin salah'
+        }))
+    })
 }

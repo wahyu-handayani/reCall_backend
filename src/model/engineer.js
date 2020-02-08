@@ -1,46 +1,52 @@
 const conn = require('../config/config');
 module.exports = {
-    readData: (req, res) => {
-        new Promise((resolve, reject) => {
+    readData:()=>{
+        return new Promise((resolve,reject)=>{
             let sql = 'SELECT * FROM engineer'
-            let query = conn.query(sql, (err, result) => {
+            conn.query(sql, (err, result) => {
                 if (err) reject(err)
-                resolve(res.send(JSON.stringify({ "status": 200, "error": null, "response": result })))
-            })
+                resolve(result)
+            }) 
         })
     },
-    postData: (req, res) => {
-        new Promise((resolve, reject) => {
-            let data = { name: req.body.name, description: req.body.description, skill: req.body.skill, location: req.body.location, birth: req.body.birth, created: new Date(), updated: new Date() }
+    postData:(data)=>{
+        return new Promise((resolve,reject)=>{
             let sql = 'INSERT INTO engineer SET ?'
-            let query = conn.query(sql, data, (err, result) => {
+            conn.query(sql, data, (err, result) => {
                 if (err) reject(err)
-                resolve(res.send(JSON.stringify({ 'status': 200, 'error': null, 'response': result })))
+                resolve(result)
+            })
+
+        })
+    },
+    updateData:(data,param)=>{
+        return new Promise((resolve,reject)=>{
+            let sql = `UPDATE engineer SET ? WHERE id=${param}`
+            conn.query(sql, data, (err, result) => {
+                if (err) reject(err)
+                resolve(result)
             })
         })
-
     },
-    updateData: (req, res) => {
-        new Promise((resolve, reject) => {
-            let data = { name: req.body.name, description: req.body.description, skill: req.body.skill, location: req.body.location, birth: req.body.birth, updated: new Date() }
-            let sql = "UPDATE engineer SET ? WHERE id='" + req.params.id + "' "
-            let query = conn.query(sql, data, (err, result) => {
+    deleteData:(param)=>{
+        return new Promise((resolve,reject)=>{
+            let sql = "DELETE FROM engineer where id=?"
+            conn.query(sql,param, (err, result) => {
                 if (err) reject(err)
-                resolve(res.send(JSON.stringify({ 'status': 200, 'error': null, 'response': result })))
+                resolve(result)
             })
         })
-
     },
-    deleteData: (req, res) => {
-        new Promise((resolve, reject) => {
-            let sql = "DELETE FROM engineer where id='" + req.params.id + "'"
-            let query = conn.query(sql, (err, result) => {
-                if (err) reject(err)
-                resolve(res.send(JSON.stringify({ 'status': 200, "response": result })))
-            })
-        })
+    // deleteData: (req, res) => {
+    //     new Promise((resolve, reject) => {
+    //         let sql = "DELETE FROM engineer where id='" + req.params.id + "'"
+    //         let query = conn.query(sql, (err, result) => {
+    //             if (err) reject(err)
+    //             resolve(res.send(JSON.stringify({ 'status': 200, "response": result })))
+    //         })
+    //     })
 
-    },
+    // },
     search:(str)=>{
         return new Promise((resolve,reject)=>{
             conn.query(`SELECT * FROM engineer WHERE name like '%${str}%' or skill like '%${str}%'`,(err,result)=>{
