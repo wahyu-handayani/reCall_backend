@@ -37,16 +37,6 @@ module.exports = {
             })
         })
     },
-    // deleteData: (req, res) => {
-    //     new Promise((resolve, reject) => {
-    //         let sql = "DELETE FROM engineer where id='" + req.params.id + "'"
-    //         let query = conn.query(sql, (err, result) => {
-    //             if (err) reject(err)
-    //             resolve(res.send(JSON.stringify({ 'status': 200, "response": result })))
-    //         })
-    //     })
-
-    // },
     search:(str)=>{
         return new Promise((resolve,reject)=>{
             conn.query(`SELECT * FROM engineer WHERE name like '%${str}%' or skill like '%${str}%'`,(err,result)=>{

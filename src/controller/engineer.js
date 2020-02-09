@@ -1,6 +1,7 @@
 const model=require('../model/engineer')
 module.exports={
     read:(req,res)=>{
+        console.log(req.body.email,'//////')
         model.readData()
         .then(result=>res.send(JSON.stringify({ 'status': 200, "response": result })))
         .catch(err=>res.json({
@@ -8,6 +9,8 @@ module.exports={
         }))
     },
     post:(req,res)=>{
+        console.log(req.body.email,':::')
+        console.log(req.body,']]')
         let data = {
             name: req.body.name,
             description: req.body.description,
@@ -15,7 +18,8 @@ module.exports={
             location: req.body.location,
             birth: req.body.birth,
             created: new Date(),
-            updated: new Date()
+            updated: new Date(),
+            email:req.body.email
         }
         model.postData(data)
         .then(result=>res.send(JSON.stringify({ 'status': 200, "response": result })))
