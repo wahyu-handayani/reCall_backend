@@ -14,8 +14,7 @@ module.exports={
         return new Promise((resolve,reject)=>{
             conn.query(`select * from users where email='${data.email}' and password='${data.password}' and position='${data.position}'`,(err,result)=>{
                 if(result=='') reject(err)
-                // console.log(result)
-                token=jwt.sign(JSON.parse(JSON.stringify(result[0])),process.env.TOKEN)
+                token=jwt.sign(JSON.parse(JSON.stringify(result[0])),process.env.TOKEN,{expiresIn:3600})
                 resolve(token)
             })
         })
