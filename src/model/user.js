@@ -1,10 +1,12 @@
 const conn=require('../config/config')
+const schema = require('../helper/validation')
 require('dotenv').config()
 module.exports={
-    regis:(data)=>{
+    regis:(data,data2)=>{
         return new Promise((resolve,reject)=>{
             conn.query('INSERT INTO users SET ?',data,(err,result)=>{
-                if(err) reject(err)
+                let { error } = schema.validate(data2)
+                if(err||error) reject(err)
                 resolve(result)
             })
         })
